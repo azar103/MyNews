@@ -19,22 +19,28 @@ import android.widget.Toast;
 
 import com.zarrouk.anis.mynews.Adapters.PageAdapter;
 
+import com.zarrouk.anis.mynews.Controllers.Fragments.MostPopularFragment;
+import com.zarrouk.anis.mynews.Controllers.Fragments.TopStoriesFragment;
+import com.zarrouk.anis.mynews.Controllers.Fragments.WorldFragment;
 import com.zarrouk.anis.mynews.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private TabLayout tabs;
-    Toolbar toolbar;
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pager = (ViewPager)findViewById(R.id.activity_main_viewpager);
         this.configureAndShowToolBar();
         this.configureAndShowTabsAndViewPager();
         this.configureDrawerLayout();
         this.configureNavigationView();
+        this.navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -122,12 +128,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
+
         switch (menuItem.getItemId()){
             case R.id.activity_main_drawer_most_popular:
+                pager.setCurrentItem(1);
                 break;
             case R.id.activity_main_drawer_topStories:
+                pager.setCurrentItem(0);
+
                 break;
             case R.id.activity_main_drawer_world:
+                pager.setCurrentItem(2);
                 break;
             default:
                 break;
@@ -146,5 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView =(NavigationView) findViewById(R.id.activity_main_navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
 }
