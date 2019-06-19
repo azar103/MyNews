@@ -1,17 +1,28 @@
 <resources>
- 
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/firstTabColor</item>
         <item name="colorPrimaryDark">@color/firstTabColor</item>
         <item name="colorAccent">@color/firstTabColor</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
     </style>
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <style name="ToolbarStyle" parent="AppTheme">
         <item name="android:textColorPrimary">@color/firstTabColor</item>
+        <item name="android:colorControlNormal">@android:color/white</item>
     </style>
+
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">25sp</item>
         <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/color_hamburger</item>
     </style>
 </resources>

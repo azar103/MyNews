@@ -6,4 +6,5 @@
     <color name="firstTabColor">#03A9F4</color>
     <color name="secondTabColor">#00BCD4</color>
     <color name="thirdTabColor">#7451EB</color>
+    <color name="color_hamburger">#CDE7ED</color>
 </resources>

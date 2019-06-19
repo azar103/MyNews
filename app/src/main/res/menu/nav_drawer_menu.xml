@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group
+    android:checkableBehavior="single"
+    >
+   <item
+      android:id="@+id/activity_main_drawer_topStories"
+      android:icon="@drawable/baseline_thumb_up_black_24dp"
+      android:title="Top Stories"
+    />
+   <item
+       android:id="@+id/activity_main_drawer_most_popular"
+       android:icon="@drawable/baseline_group_black_24dp"
+       android:title="Most Poupular"
+       />
+    <item
+        android:id="@+id/activity_main_drawer_world"
+        android:icon="@drawable/baseline_public_black_24dp"
+        android:title="World"
+        />
+</group>
+<item
+    android:title="Options"
+    >
+    <menu>
+    <group
+        android:checkableBehavior="single"
+        >
+       <item
+         android:id="@+id/activity_main_drawer_searchArticles"
+         android:icon="@drawable/baseline_search_black_24dp"
+         android:title="Search Articles"
+         />
+        <item
+            android:id="@+id/activity_main_drawer_searchNotifications"
+            android:icon="@drawable/baseline_notification_important_black_24dp"
+            android:title="Notifications"
+            />
+    </group>
+    </menu>
+</item>
+
+
+
+
+</menu>

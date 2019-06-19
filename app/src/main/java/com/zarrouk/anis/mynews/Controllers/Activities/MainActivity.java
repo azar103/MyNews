@@ -1,10 +1,15 @@
 package com.zarrouk.anis.mynews.Controllers.Activities;
 
 import android.os.Build;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,28 +18,30 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.zarrouk.anis.mynews.Adapters.PageAdapter;
+
 import com.zarrouk.anis.mynews.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private TabLayout tabs;
     Toolbar toolbar;
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.configureAndShowToolBar();
         this.configureAndShowTabsAndViewPager();
+        this.configureDrawerLayout();
+        this.configureNavigationView();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
-
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "il n'y a rien à rechercher....", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_item_params:
-                Toast.makeText(this, "pas de paramétres...", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "pas de paramètres...", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureAndShowToolBar() {
-        Toolbar toolbar =(Toolbar)findViewById(R.id.toolbar);
+        toolbar =(Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("My News");
         setSupportActionBar(toolbar);
     }
@@ -101,6 +108,43 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(this.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.activity_main_drawer_most_popular:
+                break;
+            case R.id.activity_main_drawer_topStories:
+                break;
+            case R.id.activity_main_drawer_world:
+                break;
+            default:
+                break;
+        }
+        this.drawerLayout.closeDrawer(GravityCompat.START);
+        return  true;
+    }
+
+    public void configureDrawerLayout(){
+        drawerLayout = (DrawerLayout)findViewById(R.id.activity_main_drawer_layout);
+        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toogle);
+        toogle.syncState();
+    }
+    private  void configureNavigationView(){
+        navigationView =(NavigationView) findViewById(R.id.activity_main_navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 }

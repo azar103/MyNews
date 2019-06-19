@@ -19,7 +19,7 @@ public class WorldFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WorldFragment newInstance() {
+    public static Fragment newInstance() {
         return (new WorldFragment());
 
     }

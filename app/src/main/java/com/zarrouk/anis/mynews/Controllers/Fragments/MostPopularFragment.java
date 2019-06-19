@@ -19,7 +19,7 @@ public class MostPopularFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MostPopularFragment newInstance() {
+    public static Fragment newInstance() {
 
 
         return (new MostPopularFragment());

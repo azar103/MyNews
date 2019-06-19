@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    >
+<LinearLayout
+    android:id="@+id/activity_main_linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,13 +29,22 @@
         app:tabTextColor="#DDD"
         app:tabIndicatorColor="#F00"
         app:tabSelectedTextColor="#FFF"
-        tools:ignore="MissingPrefix" />
+         />
 
 <android.support.v4.view.ViewPager
     android:id="@+id/activity_main_viewpager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     />
-
-
 </LinearLayout>
+<android.support.design.widget.NavigationView
+    android:id="@+id/activity_main_navigation_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    app:headerLayout="@layout/drawer_nav_header_layout"
+    app:menu="@menu/nav_drawer_menu"
+    />
+
+</android.support.v4.widget.DrawerLayout>

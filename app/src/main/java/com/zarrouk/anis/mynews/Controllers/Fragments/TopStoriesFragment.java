@@ -19,7 +19,7 @@ public class TopStoriesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TopStoriesFragment newInstance() {
+    public static Fragment newInstance() {
 
         return (new TopStoriesFragment());
     }
