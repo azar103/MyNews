@@ -19,23 +19,27 @@ import android.widget.Toast;
 
 import com.zarrouk.anis.mynews.Adapters.PageAdapter;
 
-import com.zarrouk.anis.mynews.Controllers.Fragments.MostPopularFragment;
-import com.zarrouk.anis.mynews.Controllers.Fragments.TopStoriesFragment;
-import com.zarrouk.anis.mynews.Controllers.Fragments.WorldFragment;
 import com.zarrouk.anis.mynews.R;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    private TabLayout tabs;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
-    private ViewPager pager;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    @BindView(R.id.activity_main_tabs)
+    TabLayout tabs;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.activity_main_navigation_view)
+    NavigationView navigationView;
+    @BindView(R.id.activity_main_drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.activity_main_viewpager)
+    ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pager = (ViewPager)findViewById(R.id.activity_main_viewpager);
+        ButterKnife.bind(this);
         this.configureAndShowToolBar();
         this.configureAndShowTabsAndViewPager();
         this.configureDrawerLayout();
@@ -64,14 +68,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void configureAndShowToolBar() {
-        toolbar =(Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("My News");
         setSupportActionBar(toolbar);
     }
     private void configureAndShowTabsAndViewPager() {
-        ViewPager pager = (ViewPager)findViewById(R.id.activity_main_viewpager);
         pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
-        tabs = (TabLayout)findViewById(R.id.activity_main_tabs);
         tabs.setupWithViewPager(pager);
         tabs.setTabMode(TabLayout.MODE_FIXED);
         tabs.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
@@ -148,13 +149,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void configureDrawerLayout(){
-        drawerLayout = (DrawerLayout)findViewById(R.id.activity_main_drawer_layout);
         ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toogle);
         toogle.syncState();
     }
     private  void configureNavigationView(){
-        navigationView =(NavigationView) findViewById(R.id.activity_main_navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 

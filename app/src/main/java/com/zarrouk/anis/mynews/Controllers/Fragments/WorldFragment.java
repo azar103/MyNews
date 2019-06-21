@@ -14,14 +14,7 @@ import com.zarrouk.anis.mynews.R;
  */
 public class WorldFragment extends Fragment {
 
-
-    public WorldFragment() {
-        // Required empty public constructor
-    }
-
-    public static Fragment newInstance() {
-        return (new WorldFragment());
-
+    public static Fragment newInstance() { return (new WorldFragment());
     }
 
 

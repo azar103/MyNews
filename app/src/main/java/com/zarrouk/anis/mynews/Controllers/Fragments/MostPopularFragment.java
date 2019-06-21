@@ -15,15 +15,7 @@ import com.zarrouk.anis.mynews.R;
 public class MostPopularFragment extends Fragment {
 
 
-    public MostPopularFragment() {
-        // Required empty public constructor
-    }
-
-    public static Fragment newInstance() {
-
-
-        return (new MostPopularFragment());
-    }
+    public static Fragment newInstance() { return (new MostPopularFragment()); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

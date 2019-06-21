@@ -15,14 +15,7 @@ import com.zarrouk.anis.mynews.R;
 public class TopStoriesFragment extends Fragment {
 
 
-    public TopStoriesFragment() {
-        // Required empty public constructor
-    }
-
-    public static Fragment newInstance() {
-
-        return (new TopStoriesFragment());
-    }
+    public static Fragment newInstance() { return (new TopStoriesFragment()); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
