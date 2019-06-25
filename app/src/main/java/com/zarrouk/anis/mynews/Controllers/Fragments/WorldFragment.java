@@ -12,17 +12,20 @@ import com.zarrouk.anis.mynews.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WorldFragment extends Fragment {
+public class WorldFragment extends BaseFragment {
 
     public static Fragment newInstance() { return (new WorldFragment());
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_world, container, false);
+    protected int getFragmentLayout() {
+        return R.layout.fragment_world;
     }
+
+    @Override
+    protected void configureDesign() {}
+
+
 
 }

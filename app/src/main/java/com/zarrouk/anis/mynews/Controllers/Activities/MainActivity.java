@@ -40,11 +40,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         this.configureAndShowToolBar();
         this.configureAndShowTabsAndViewPager();
         this.configureDrawerLayout();
         this.configureNavigationView();
-        this.navigationView.getMenu().getItem(0).setChecked(true);
+        this.getDefaultTab();
+        this.getDefaultCheckedMenu();
     }
 
     @Override
@@ -155,6 +157,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private  void configureNavigationView(){
         navigationView.setNavigationItemSelectedListener(this);
+    }
+    private void getDefaultTab(){
+        pager.setCurrentItem(0);
+    }
+    private void getDefaultCheckedMenu(){
+        this.navigationView.getMenu().getItem(0).setChecked(true);
     }
 
 
