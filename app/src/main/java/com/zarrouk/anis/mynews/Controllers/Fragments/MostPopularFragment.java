@@ -1,80 +1,58 @@
 package com.zarrouk.anis.mynews.Controllers.Fragments;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 
 import com.zarrouk.anis.mynews.Adapters.MostPopularAdapter;
-import com.zarrouk.anis.mynews.Models.News;
+import com.zarrouk.anis.mynews.Models.MostPopularStream.ArticleMostPopular;
 import com.zarrouk.anis.mynews.R;
-import com.zarrouk.anis.mynews.Utils.MyAsyncTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MostPopularFragment extends BaseFragment implements MyAsyncTask.Listeners {
-
-    List<News> myNews;
-
-
+public class MostPopularFragment extends BaseFragment implements NewsCalls.CallBacksMostPopular {
+    @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.list) RecyclerView  mRecyclerView;
     public static Fragment newInstance() { return (new MostPopularFragment()); }
-
     @Override
-    protected int getFragmentLayout() { return R.layout.fragment_most_popular; }
-
-    @Override
-    protected void configureDesign() {
-        this.addNews();
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv.setAdapter(new MostPopularAdapter(myNews));
-        this.startAsyncTask();
+    protected int getFragmentLayout() {
+        return R.layout.fragment_top_stories;
     }
 
+    @Override
+    protected void configureDesign() { this.executeHttpConnectionWithRetrofit(); }
 
-
-
-
-    private void addNews(){
-        this.myNews = new ArrayList<News>();
-        myNews.add(new News("World", "Jims Mattis says He And Trump Never"));
-        myNews.add(new News("Style", "24 Hours in America"));
-        myNews.add(new News("Style", "A Dark Screen about Screens And Kids"));
-        myNews.add(new News("World", "Jims Mattis says He And Trump Never"));
-        myNews.add(new News("Style", "24 Hours in America"));
-        myNews.add(new News("Style", "A Dark Screen about Screens And Kids"));
-        myNews.add(new News("World", "Jims Mattis says He And Trump Never"));
-        myNews.add(new News("Style", "24 Hours in America"));
-        myNews.add(new News("Style", "A Dark Screen about Screens And Kids"));
-    }
-    private void startAsyncTask(){
-        new MyAsyncTask(this).execute();
+    private void executeHttpConnectionWithRetrofit(){
+        this.updateUIBeforeHttpConnection();
+        NewsCalls.fetchMostPopular(this);
     }
     @Override
-    public void onPostExecute(Long success) {
-           this.updateUIAfterTask();
-    }
-    @Override
-    public void onPreExecute() {
-        this.updateUIBeforeTask();
+    public void onResponse(List<ArticleMostPopular> posts) {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(new MostPopularAdapter(posts));
+        this.updateUIAfterHttpConnection();
 
     }
 
     @Override
-    public void doInBackground() { }
-    private void updateUIBeforeTask(){
-        mProgressBar.setVisibility(View.VISIBLE);
+    public void onFailure() {
+        this.updateUIAfterHttpConnection();
+        Log.e("TAG","error in onFailure!!");
     }
 
-    private void updateUIAfterTask(){
+    private void updateUIBeforeHttpConnection() { mProgressBar.setVisibility(View.VISIBLE);
+    }
+    private void updateUIAfterHttpConnection() {
         mProgressBar.setVisibility(View.GONE);
     }
 }

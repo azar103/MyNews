@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.zarrouk.anis.mynews.Controllers.Fragments.MostPopularFragment;
+import com.zarrouk.anis.mynews.Controllers.Fragments.SportsFragment;
 import com.zarrouk.anis.mynews.Controllers.Fragments.TopStoriesFragment;
-import com.zarrouk.anis.mynews.Controllers.Fragments.WorldFragment;
+import com.zarrouk.anis.mynews.Controllers.Fragments.SportsFragment;
 
 /**
  * Created by Anis Zarrouk on 17/06/2019
@@ -23,9 +24,9 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 0:
                 return TopStoriesFragment.newInstance();
             case 1:
-                return  MostPopularFragment.newInstance();
+                return MostPopularFragment.newInstance();
             case 2:
-                return WorldFragment.newInstance();
+                return SportsFragment.newInstance();
             default:
                 return null;
         }
@@ -45,7 +46,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1:
                 return  "Most Popular";
             case 2:
-                return  "World";
+                return  "Sports";
             default:
                 return  null;
         }

@@ -10,12 +10,12 @@
     android:id="@+id/item_image"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:background="@color/colorPrimary"
     />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:padding="5dp"
     >
 <TextView
     android:id="@+id/item_title"
@@ -24,6 +24,7 @@
     android:textSize="20sp"
     android:text="title"
     android:textStyle="bold"
+    android:maxLines="1"
     />
 <TextView
     android:id="@+id/item_description"
@@ -31,6 +32,8 @@
     android:layout_height="wrap_content"
     android:text="description"
     android:textSize="15sp"
+    android:ellipsize="end"
+    android:maxLines="4"
 
 
     />

@@ -12,50 +12,52 @@ import com.squareup.picasso.Picasso;
 import com.zarrouk.anis.mynews.Models.TopStoriesStream.Article;
 import com.zarrouk.anis.mynews.Models.TopStoriesStream.Multimedia;
 import com.zarrouk.anis.mynews.R;
+
 import java.util.List;
 
 /**
- * Created by Anis Zarrouk on 25/06/2019
+ * Created by Anis Zarrouk on 26/06/2019
  */
-public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.MyViewHolder> {
-    final List<Article> myNews;
-    public TopStoriesAdapter(List<Article> myNews) {
-        this.myNews = myNews;
-    }
+public class SportsAdapter extends  RecyclerView.Adapter<SportsAdapter.MyViewHolder> {
 
+    List<Article> mNews ;
+
+
+    public SportsAdapter(List<Article> news) { mNews = news; }
+
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
+    public SportsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        return  new MyViewHolder(view);
+
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-             holder.display(myNews.get(position));
+    public void onBindViewHolder(SportsAdapter.MyViewHolder holder, int position) {
+        holder.display(mNews.get(position));
+
     }
 
     @Override
     public int getItemCount() {
-        return myNews.size();
+        return mNews.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView mTitleTextView;
         private TextView mDescriptionTextView;
-        private String webUrl;
-        private  ImageView mImageView;
+        private ImageView mImageView;
         public MyViewHolder(View itemView) {
             super(itemView);
-            mTitleTextView  = (TextView)itemView.findViewById(R.id.item_title);
+            mTitleTextView = (TextView)itemView.findViewById(R.id.item_title);
             mDescriptionTextView = (TextView)itemView.findViewById(R.id.item_description);
             mImageView = (ImageView)itemView.findViewById(R.id.item_image);
         }
 
-
         public void display(Article article) {
             mTitleTextView.setText(article.getSection());
             mDescriptionTextView.setText(article.getTitle());
-            webUrl = article.getUrl();
             for(Multimedia dataImage: article.getMultimedia()){
                 if(dataImage.getFormat().equals("Standard Thumbnail") || dataImage.getFormat().equals("thumbnail")){
                     Picasso.get()
@@ -63,7 +65,6 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
                             .into(mImageView);
                 }
             }
-
         }
     }
 }
