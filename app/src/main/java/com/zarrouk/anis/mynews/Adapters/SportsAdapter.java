@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.zarrouk.anis.mynews.Models.TopStoriesStream.Article;
+import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.Models.TopStoriesStream.Multimedia;
 import com.zarrouk.anis.mynews.R;
 
@@ -56,15 +56,12 @@ public class SportsAdapter extends  RecyclerView.Adapter<SportsAdapter.MyViewHol
         }
 
         public void display(Article article) {
-            mTitleTextView.setText(article.getSection());
+            mTitleTextView.setText(article.getSource().getName());
             mDescriptionTextView.setText(article.getTitle());
-            for(Multimedia dataImage: article.getMultimedia()){
-                if(dataImage.getFormat().equals("Standard Thumbnail") || dataImage.getFormat().equals("thumbnail")){
-                    Picasso.get()
-                            .load(article.getMultimedia().get(0).getUrl())
-                            .into(mImageView);
-                }
-            }
+            Picasso.get()
+                    .load(article.getUrlToImage())
+                    .resize(200, 200)
+                    .into(mImageView);
         }
     }
 }

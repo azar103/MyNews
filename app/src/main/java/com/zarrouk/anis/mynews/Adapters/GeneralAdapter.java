@@ -9,17 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.zarrouk.anis.mynews.Models.TopStoriesStream.Article;
-import com.zarrouk.anis.mynews.Models.TopStoriesStream.Multimedia;
+import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.R;
 import java.util.List;
 
 /**
  * Created by Anis Zarrouk on 25/06/2019
  */
-public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.MyViewHolder> {
+public class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
     final List<Article> myNews;
-    public TopStoriesAdapter(List<Article> myNews) {
+    public GeneralAdapter(List<Article> myNews) {
         this.myNews = myNews;
     }
 
@@ -53,16 +52,13 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
 
 
         public void display(Article article) {
-            mTitleTextView.setText(article.getSection());
+            mTitleTextView.setText(article.getSource().getName());
             mDescriptionTextView.setText(article.getTitle());
-            webUrl = article.getUrl();
-            for(Multimedia dataImage: article.getMultimedia()){
-                if(dataImage.getFormat().equals("Standard Thumbnail") || dataImage.getFormat().equals("thumbnail")){
-                    Picasso.get()
-                            .load(article.getMultimedia().get(0).getUrl())
+            Picasso.get()
+                            .load(article.getUrlToImage())
+                            .resize(200, 200)
                             .into(mImageView);
-                }
-            }
+
 
         }
     }

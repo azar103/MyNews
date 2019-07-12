@@ -1,7 +1,8 @@
-package com.zarrouk.anis.mynews.Models.TopStoriesStream;
+package com.zarrouk.anis.mynews.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.zarrouk.anis.mynews.Models.Source;
 
 import java.util.List;
 
@@ -10,76 +11,46 @@ import java.util.List;
  */
 public class Article {
 
-    @SerializedName("section")
+    @SerializedName("source")
     @Expose
-    private String section;
-    @SerializedName("subsection")
+    private Source source;
+    @SerializedName("author")
     @Expose
-    private String subsection;
+    private String author;
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("abstract")
+    @SerializedName("description")
     @Expose
-    private String _abstract;
+    private String description;
     @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("byline")
+    @SerializedName("urlToImage")
     @Expose
-    private String byline;
-    @SerializedName("item_type")
+    private String urlToImage;
+    @SerializedName("publishedAt")
     @Expose
-    private String itemType;
-    @SerializedName("updated_date")
+    private String publishedAt;
+    @SerializedName("content")
     @Expose
-    private String updatedDate;
-    @SerializedName("created_date")
-    @Expose
-    private String createdDate;
-    @SerializedName("published_date")
-    @Expose
-    private String publishedDate;
-    @SerializedName("material_type_facet")
-    @Expose
-    private String materialTypeFacet;
-    @SerializedName("kicker")
-    @Expose
-    private String kicker;
-    @SerializedName("des_facet")
-    @Expose
-    private List<String> desFacet = null;
-    @SerializedName("org_facet")
-    @Expose
-    private List<String> orgFacet = null;
-    @SerializedName("per_facet")
-    @Expose
-    private List<Object> perFacet = null;
-    @SerializedName("geo_facet")
-    @Expose
-    private List<Object> geoFacet = null;
-    @SerializedName("multimedia")
-    @Expose
-    private List<Multimedia> multimedia = null;
-    @SerializedName("short_url")
-    @Expose
-    private String shortUrl;
-    private final static long serialVersionUID = 6607292962263810868L;
+    private String content;
+    private final static long serialVersionUID = 3352018334252575173L;
 
-    public String getSection() {
-        return section;
+    public Source getSource() {
+        return source;
     }
 
-    public void setSection(String section) {
-        this.section = section;
+    public void setSource(Source source) {
+        this.source = source;
     }
 
-    public String getSubsection() {
-        return subsection;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setSubsection(String subsection) {
-        this.subsection = subsection;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -90,12 +61,12 @@ public class Article {
         this.title = title;
     }
 
-    public String getAbstract() {
-        return _abstract;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAbstract(String _abstract) {
-        this._abstract = _abstract;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUrl() {
@@ -106,107 +77,27 @@ public class Article {
         this.url = url;
     }
 
-    public String getByline() {
-        return byline;
+    public String getUrlToImage() {
+        return urlToImage;
     }
 
-    public void setByline(String byline) {
-        this.byline = byline;
+    public void setUrlToImage(String urlToImage) {
+        this.urlToImage = urlToImage;
     }
 
-    public String getItemType() {
-        return itemType;
+    public String getPublishedAt() {
+        return publishedAt;
     }
 
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
-    public String getUpdatedDate() {
-        return updatedDate;
+    public String getContent() {
+        return content;
     }
 
-    public void setUpdatedDate(String updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getPublishedDate() {
-        return publishedDate;
-    }
-
-    public void setPublishedDate(String publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    public String getMaterialTypeFacet() {
-        return materialTypeFacet;
-    }
-
-    public void setMaterialTypeFacet(String materialTypeFacet) {
-        this.materialTypeFacet = materialTypeFacet;
-    }
-
-    public String getKicker() {
-        return kicker;
-    }
-
-    public void setKicker(String kicker) {
-        this.kicker = kicker;
-    }
-
-    public List<String> getDesFacet() {
-        return desFacet;
-    }
-
-    public void setDesFacet(List<String> desFacet) {
-        this.desFacet = desFacet;
-    }
-
-    public List<String> getOrgFacet() {
-        return orgFacet;
-    }
-
-    public void setOrgFacet(List<String> orgFacet) {
-        this.orgFacet = orgFacet;
-    }
-
-    public List<Object> getPerFacet() {
-        return perFacet;
-    }
-
-    public void setPerFacet(List<Object> perFacet) {
-        this.perFacet = perFacet;
-    }
-
-    public List<Object> getGeoFacet() {
-        return geoFacet;
-    }
-
-    public void setGeoFacet(List<Object> geoFacet) {
-        this.geoFacet = geoFacet;
-    }
-
-    public List<Multimedia> getMultimedia() {
-        return multimedia;
-    }
-
-    public void setMultimedia(List<Multimedia> multimedia) {
-        this.multimedia = multimedia;
-    }
-
-    public String getShortUrl() {
-        return shortUrl;
-    }
-
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

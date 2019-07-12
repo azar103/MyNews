@@ -33,7 +33,7 @@
     android:text="description"
     android:textSize="15sp"
     android:ellipsize="end"
-    android:maxLines="4"
+    android:maxLines="3"
 
 
     />

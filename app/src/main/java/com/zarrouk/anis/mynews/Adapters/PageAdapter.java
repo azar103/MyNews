@@ -5,10 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.zarrouk.anis.mynews.Controllers.Fragments.MostPopularFragment;
+import com.zarrouk.anis.mynews.Controllers.Fragments.BusinessFragment;
+import com.zarrouk.anis.mynews.Controllers.Fragments.GeneralNewsFragment;
 import com.zarrouk.anis.mynews.Controllers.Fragments.SportsFragment;
-import com.zarrouk.anis.mynews.Controllers.Fragments.TopStoriesFragment;
-import com.zarrouk.anis.mynews.Controllers.Fragments.SportsFragment;
+
+
 
 /**
  * Created by Anis Zarrouk on 17/06/2019
@@ -22,11 +23,11 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return TopStoriesFragment.newInstance();
+                return GeneralNewsFragment.newInstance();
             case 1:
-                return MostPopularFragment.newInstance();
-            case 2:
                 return SportsFragment.newInstance();
+            case 2:
+                return BusinessFragment.newInstance();
             default:
                 return null;
         }
@@ -42,11 +43,11 @@ public class PageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return "Top Stories";
+                return "General";
             case 1:
-                return  "Most Popular";
-            case 2:
                 return  "Sports";
+            case 2:
+                return  "business";
             default:
                 return  null;
         }

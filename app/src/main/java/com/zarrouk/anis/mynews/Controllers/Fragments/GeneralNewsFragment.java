@@ -9,26 +9,29 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.zarrouk.anis.mynews.Adapters.GeneralAdapter;
-import com.zarrouk.anis.mynews.Adapters.SportsAdapter;
 import com.zarrouk.anis.mynews.Models.Article;
+import com.zarrouk.anis.mynews.Models.ResponseModel;
 import com.zarrouk.anis.mynews.R;
 import com.zarrouk.anis.mynews.Utils.NewsCalls;
+import com.zarrouk.anis.mynews.Utils.NewsService;
+import com.zarrouk.anis.mynews.Utils.NewsStreams;
 
 import java.util.List;
 
 import butterknife.BindView;
-
+import io.reactivex.disposables.Disposable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
-    @BindView(R.id.progress) ProgressBar mProgressBar;
-    @BindView(R.id.list) RecyclerView mRecyclerView;
 
-    public static Fragment newInstance() { return (new SportsFragment()); }
+public class GeneralNewsFragment extends BaseFragment implements NewsCalls.CallBacks {
+    @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.list) RecyclerView  mRecyclerView;
+    private Disposable mDisposable;
+    public static Fragment newInstance() { return (new GeneralNewsFragment()); }
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_sports;
+        return R.layout.fragment_general_news;
     }
 
     @Override
@@ -36,10 +39,10 @@ public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
         this.executeHttpConnectionWithRetrofit();
     }
 
-    private void executeHttpConnectionWithRetrofit(){
+   private void executeHttpConnectionWithRetrofit(){
         updateUIBeforeHttpConnection();
-        NewsCalls.fetchSectionNews(this, "fr","sports");
-    }
+        NewsCalls.fetchGeneralNews(this,"fr");
+   }
 
     private void updateUIBeforeHttpConnection() { mProgressBar.setVisibility(View.VISIBLE);
     }
@@ -49,7 +52,7 @@ public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
 
     private void configureRecyclerView(List<Article> posts){
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new SportsAdapter(posts));
+        mRecyclerView.setAdapter(new GeneralAdapter(posts));
     }
 
     @Override
@@ -62,8 +65,7 @@ public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
 
     @Override
     public void onFailure() {
-        Log.d("TAG", "Error in on Failure");
+        Log.d("TAG","Error in on Failure");
         this.updateUIAfterHttpConnection();
     }
-
 }

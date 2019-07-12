@@ -2,6 +2,7 @@ package com.zarrouk.anis.mynews.Utils;
 
 import android.util.Log;
 
+import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.Models.ResponseModel;
 
 import org.json.JSONException;
@@ -9,19 +10,19 @@ import org.json.JSONException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.zarrouk.anis.mynews.Models.TopStoriesStream.Article;
+
 /**
  * Created by Anis Zarrouk on 06/07/2019
  */
 public class NewsCalls {
 
-    public static final String API_KEY_1 ="VqIqRqFQKLeyiCKr2o0Fo3vQuKqMPAH1";
-    public static final String API_KEY_2 ="cf9fR8GDGUcRfZAytsAfpzOPL8w50KK8";
 
 
+   public static final String API_KEY="109a63e3da1d4c2393a65fca8bced3ed";
     public interface  CallBacks{
         void onResponse(List<Article> posts);
         void onFailure();
@@ -29,44 +30,54 @@ public class NewsCalls {
 
 
 
-   public static void fetchTopStories(CallBacks callbacks){
-
-    }
-    /*public static void fetchMostPopular(CallBacks callbacks){
-        final  WeakReference<CallBacks> callBacksWeakReference = new WeakReference<CallBacks>(callbacks);
+   public static void fetchGeneralNews(CallBacks callbacks, String country){
+        final WeakReference<CallBacks> callBacksWeakReference = new WeakReference<>(callbacks);
         NewsService newsService = NewsService.retrofit.create(NewsService.class);
-        Call<ResponseModel> call2 = newsService.getFollowingMostPopular(API_KEY_2);
-        call2.enqueue(new Callback<ResponseModel>() {
-            @Override
-            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                if(callBacksWeakReference.get()!=null){
-                    callBacksWeakReference.get().onResponse(response.body().getResults());
-                    Log.d("TAG",response.body().getResults().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseModel> call, Throwable t) {
-                callBacksWeakReference.get().onFailure();
-            }
-        });
-    }
-
-    public static void fetchSports(CallBacks callbacks){
-        final  WeakReference<CallBacks> callBacksWeakReference = new WeakReference<CallBacks>(callbacks);
-        NewsService newsService = NewsService.retrofit.create(NewsService.class);
-        Call<ResponseModel> call = newsService.getSportsSection(API_KEY_2);
+        Call<ResponseModel> call = newsService.getFollowingGeneralNews(country, API_KEY);
         call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+            public void onResponse(Call<ResponseModel> call,Response<ResponseModel> response) {
                 if(callBacksWeakReference.get()!=null){
-                    callBacksWeakReference.get().onResponse(response.body().getResults());
+                    callBacksWeakReference.get().onResponse(response.body().getArticles());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
-                callBacksWeakReference.get().onFailure();
+                if(callBacksWeakReference.get()!=null){
+                    callBacksWeakReference.get().onFailure();
+                }
+
             }
         });
-    }*/
+
+
+
+    }
+    public static void fetchSectionNews(CallBacks callbacks, String country, String category){
+        final WeakReference<CallBacks> callBacksWeakReference = new WeakReference<>(callbacks);
+        NewsService newsService = NewsService.retrofit.create(NewsService.class);
+        Call<ResponseModel> call = newsService.getFollowingSectionNews(country,category, API_KEY);
+        call.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call,Response<ResponseModel> response) {
+                if(callBacksWeakReference.get()!=null){
+                    callBacksWeakReference.get().onResponse(response.body().getArticles());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                if(callBacksWeakReference.get()!=null){
+                    callBacksWeakReference.get().onFailure();
+                }
+            }
+        });
+
+
+
+    }
+
+
+
 }

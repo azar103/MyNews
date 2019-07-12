@@ -3,7 +3,7 @@ package com.zarrouk.anis.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
-import com.zarrouk.anis.mynews.Models.TopStoriesStream.Article;
+
 
 /**
  * Created by Anis Zarrouk on 06/07/2019
@@ -13,22 +13,13 @@ public class ResponseModel {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("copyright")
+    @SerializedName("totalResults")
     @Expose
-    private String copyright;
-    @SerializedName("section")
+    private Long totalResults;
+    @SerializedName("articles")
     @Expose
-    private String section;
-    @SerializedName("last_updated")
-    @Expose
-    private String lastUpdated;
-    @SerializedName("num_results")
-    @Expose
-    private Long numResults;
-    @SerializedName("results")
-    @Expose
-    private List<Article> results = null;
-    private final static long serialVersionUID = -7387792365105654481L;
+    private List<Article> articles = null;
+    private final static long serialVersionUID = 5368039946997183573L;
 
     public String getStatus() {
         return status;
@@ -38,43 +29,19 @@ public class ResponseModel {
         this.status = status;
     }
 
-    public String getCopyright() {
-        return copyright;
+    public Long getTotalResults() {
+        return totalResults;
     }
 
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
+    public void setTotalResults(Long totalResults) {
+        this.totalResults = totalResults;
     }
 
-    public String getSection() {
-        return section;
+    public List<Article> getArticles() {
+        return articles;
     }
 
-    public void setSection(String section) {
-        this.section = section;
-    }
-
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public Long getNumResults() {
-        return numResults;
-    }
-
-    public void setNumResults(Long numResults) {
-        this.numResults = numResults;
-    }
-
-    public List<Article> getResults() {
-        return results;
-    }
-
-    public void setResults(List<Article> results) {
-        this.results = results;
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 }
