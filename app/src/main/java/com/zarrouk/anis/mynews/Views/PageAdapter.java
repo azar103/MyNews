@@ -1,4 +1,4 @@
-package com.zarrouk.anis.mynews.Adapters;
+package com.zarrouk.anis.mynews.Views;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

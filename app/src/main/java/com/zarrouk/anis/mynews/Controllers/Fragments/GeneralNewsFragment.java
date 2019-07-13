@@ -8,26 +8,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.zarrouk.anis.mynews.Adapters.GeneralAdapter;
 import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.Models.ResponseModel;
 import com.zarrouk.anis.mynews.R;
-import com.zarrouk.anis.mynews.Utils.NewsCalls;
-import com.zarrouk.anis.mynews.Utils.NewsService;
 import com.zarrouk.anis.mynews.Utils.NewsStreams;
+import com.zarrouk.anis.mynews.Views.GeneralAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 
-public class GeneralNewsFragment extends BaseFragment implements NewsCalls.CallBacks {
+public class GeneralNewsFragment extends BaseFragment  {
     @BindView(R.id.progress) ProgressBar mProgressBar;
     @BindView(R.id.list) RecyclerView  mRecyclerView;
     private Disposable mDisposable;
+    private List<Article> mArticles;
+    private GeneralAdapter mGeneralAdapter;
     public static Fragment newInstance() { return (new GeneralNewsFragment()); }
     @Override
     protected int getFragmentLayout() {
@@ -35,14 +38,13 @@ public class GeneralNewsFragment extends BaseFragment implements NewsCalls.CallB
     }
 
     @Override
-    protected void configureDesign() {
-        this.executeHttpConnectionWithRetrofit();
+    protected void configureDesign()
+    {
+        this.configureRecyclerView();
+        this.executeHttpRequest();
     }
 
-   private void executeHttpConnectionWithRetrofit(){
-        updateUIBeforeHttpConnection();
-        NewsCalls.fetchGeneralNews(this,"fr");
-   }
+
 
     private void updateUIBeforeHttpConnection() { mProgressBar.setVisibility(View.VISIBLE);
     }
@@ -50,22 +52,43 @@ public class GeneralNewsFragment extends BaseFragment implements NewsCalls.CallB
         mProgressBar.setVisibility(View.GONE);
     }
 
-    private void configureRecyclerView(List<Article> posts){
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
+    }
+
+    private void executeHttpRequest(){
+        this.updateUIBeforeHttpConnection();
+        this.mDisposable = NewsStreams.streamFetchGeneralNews("fr").subscribeWith(
+                new DisposableObserver<ResponseModel>(){
+                    @Override
+                    public void onNext(ResponseModel responseModel) {
+                        List<Article> articles = responseModel.getArticles();
+                        updateUI(articles);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { }
+
+                    @Override
+                    public void onComplete() { }
+                });
+
+    }
+    private void configureRecyclerView(){
+        mArticles = new ArrayList<>();
+        mGeneralAdapter = new GeneralAdapter(mArticles);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new GeneralAdapter(posts));
+        mRecyclerView.setAdapter(mGeneralAdapter);
+    }
+    private void updateUI(List<Article> articles) {
+       mArticles.addAll(articles);
+       mGeneralAdapter.notifyDataSetChanged();
+       this.updateUIAfterHttpConnection();
+    }
+    private void disposeWhenDestroy(){
+        if (this.mDisposable !=null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    @Override
-    public void onResponse(List<Article> posts) {
-
-        this.configureRecyclerView(posts);
-        this.updateUIAfterHttpConnection();
-
-    }
-
-    @Override
-    public void onFailure() {
-        Log.d("TAG","Error in on Failure");
-        this.updateUIAfterHttpConnection();
-    }
 }

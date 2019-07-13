@@ -8,23 +8,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.zarrouk.anis.mynews.Adapters.GeneralAdapter;
-import com.zarrouk.anis.mynews.Adapters.SportsAdapter;
+import com.zarrouk.anis.mynews.Models.ResponseModel;
+import com.zarrouk.anis.mynews.Utils.NewsStreams;
+import com.zarrouk.anis.mynews.Views.SportsAdapter;
 import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.R;
-import com.zarrouk.anis.mynews.Utils.NewsCalls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
+public class SportsFragment extends BaseFragment {
     @BindView(R.id.progress) ProgressBar mProgressBar;
     @BindView(R.id.list) RecyclerView mRecyclerView;
-
+    private Disposable mDisposable;
+    private SportsAdapter mSportsAdapter;
+    private List<Article> mArticles;
     public static Fragment newInstance() { return (new SportsFragment()); }
     @Override
     protected int getFragmentLayout() {
@@ -33,12 +38,27 @@ public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
 
     @Override
     protected void configureDesign() {
-        this.executeHttpConnectionWithRetrofit();
+        this.configureRecyclerView();
+        this.executeHttpConnection();
     }
 
-    private void executeHttpConnectionWithRetrofit(){
+    private void executeHttpConnection(){
         updateUIBeforeHttpConnection();
-        NewsCalls.fetchSectionNews(this, "fr","sports");
+        this.mDisposable = NewsStreams.streamFetchSectionNews("fr","sports").subscribeWith(new DisposableObserver<ResponseModel>(){
+            @Override
+            public void onNext(ResponseModel responseModel) {
+                List<Article> mArticles = responseModel.getArticles();
+                updateUI(mArticles);
+            }
+
+
+            @Override
+            public void onError(Throwable e) { }
+
+            @Override
+            public void onComplete() { }
+        });
+
     }
 
     private void updateUIBeforeHttpConnection() { mProgressBar.setVisibility(View.VISIBLE);
@@ -47,23 +67,16 @@ public class SportsFragment extends BaseFragment implements NewsCalls.CallBacks{
         mProgressBar.setVisibility(View.GONE);
     }
 
-    private void configureRecyclerView(List<Article> posts){
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new SportsAdapter(posts));
+    private void configureRecyclerView(){
+        mArticles = new ArrayList<>();
+        mSportsAdapter = new SportsAdapter(mArticles);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.mRecyclerView.setAdapter(mSportsAdapter);
     }
-
-    @Override
-    public void onResponse(List<Article> posts) {
-
-        this.configureRecyclerView(posts);
+    private void updateUI(List<Article> articles){
+        mArticles.addAll(articles);
+        mSportsAdapter.notifyDataSetChanged();
         this.updateUIAfterHttpConnection();
 
     }
-
-    @Override
-    public void onFailure() {
-        Log.d("TAG", "Error in on Failure");
-        this.updateUIAfterHttpConnection();
-    }
-
 }

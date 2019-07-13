@@ -19,12 +19,12 @@ import retrofit2.http.Query;
  */
  public interface NewsService {
     @GET("v2/top-headlines")
-    Call<ResponseModel> getFollowingGeneralNews(
+    Observable<ResponseModel> getFollowingGeneralNews(
             @Query("country") String country,
             @Query("apiKey") String API_KEY);
 
     @GET("v2/top-headlines")
-    Call<ResponseModel> getFollowingSectionNews(
+    Observable<ResponseModel> getFollowingSectionNews(
                                            @Query("country") String country,
                                            @Query("category") String category,
                                              @Query("apiKey") String API_KEY
@@ -32,8 +32,9 @@ import retrofit2.http.Query;
 
 
     Retrofit retrofit = new Retrofit.Builder()
-                                       .addConverterFactory(GsonConverterFactory.create())
                                        .baseUrl("https://newsapi.org/")
+                                       .addConverterFactory(GsonConverterFactory.create())
+                                       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                                        .build();
 
  }
