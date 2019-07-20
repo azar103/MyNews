@@ -2,13 +2,10 @@ package com.zarrouk.anis.mynews.Controllers.Fragments;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -19,7 +16,7 @@ import com.zarrouk.anis.mynews.Models.ResponseModel;
 import com.zarrouk.anis.mynews.R;
 import com.zarrouk.anis.mynews.Utils.ItemClickSupport;
 import com.zarrouk.anis.mynews.Utils.NewsStreams;
-import com.zarrouk.anis.mynews.Views.GeneralAdapter;
+import com.zarrouk.anis.mynews.Views.NewsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +31,7 @@ import io.reactivex.observers.DisposableObserver;
 public class Results_SearchFragment extends BaseFragment {
 
    Disposable mDisposable;
-   GeneralAdapter mGeneralAdapter;
+   NewsAdapter mAdapter;
    List<Article> mArticles;
    @BindView(R.id.list) RecyclerView mRecyclerView;
    @BindView(R.id.progress) ProgressBar mProgressBar;
@@ -70,8 +67,8 @@ public class Results_SearchFragment extends BaseFragment {
     private void configureRecyclerView(){
        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
        mArticles = new ArrayList<>();
-       mGeneralAdapter = new GeneralAdapter(mArticles, Glide.with(this));
-        mRecyclerView.setAdapter(mGeneralAdapter);
+       mAdapter = new NewsAdapter(mArticles, Glide.with(this));
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -83,7 +80,7 @@ public class Results_SearchFragment extends BaseFragment {
 
     private void updateUI(List<Article> articles){
         mArticles.addAll(articles);
-        mGeneralAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
         if(articles.size() == 0)
             Toast.makeText(getContext(), "No results", Toast.LENGTH_LONG).show();
         updateUIAfterHttpConnection();
@@ -99,7 +96,7 @@ public class Results_SearchFragment extends BaseFragment {
                         .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                             @Override
                             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                                Article article = mGeneralAdapter.getArticle(position);
+                                Article article = mAdapter.getArticle(position);
                                 Intent myIntent = new Intent(getActivity(), DetailActivity.class);
                                 myIntent.putExtra("URL", article.getUrl());
                                 myIntent.putExtra("SOURCE_NAME", article.getSource().getName());

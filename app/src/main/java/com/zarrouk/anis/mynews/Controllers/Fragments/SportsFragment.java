@@ -8,17 +8,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zarrouk.anis.mynews.Controllers.Activities.DetailActivity;
 import com.zarrouk.anis.mynews.Models.ResponseModel;
 import com.zarrouk.anis.mynews.Utils.ItemClickSupport;
 import com.zarrouk.anis.mynews.Utils.NewsStreams;
-import com.zarrouk.anis.mynews.Views.SportsAdapter;
+import com.zarrouk.anis.mynews.Views.NewsAdapter;
 import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.R;
 
@@ -37,7 +35,7 @@ public class SportsFragment extends BaseFragment {
     @BindView(R.id.list) RecyclerView mRecyclerView;
     @BindView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     private Disposable mDisposable;
-    private SportsAdapter mSportsAdapter;
+    private NewsAdapter mAdapter;
     private List<Article> mArticles;
     @Override
     protected int getFragmentLayout() {
@@ -86,9 +84,9 @@ public class SportsFragment extends BaseFragment {
 
     private void configureRecyclerView(){
         mArticles = new ArrayList<>();
-        mSportsAdapter = new SportsAdapter(mArticles, Glide.with(this));
+        mAdapter = new NewsAdapter(mArticles, Glide.with(this));
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.mRecyclerView.setAdapter(mSportsAdapter);
+        this.mRecyclerView.setAdapter(mAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.recylcerview_divider));
         mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -98,7 +96,7 @@ public class SportsFragment extends BaseFragment {
         this.mArticles.clear();
 
         mArticles.addAll(articles);
-        mSportsAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
         this.updateUIAfterHttpConnection();
 
 
@@ -120,7 +118,7 @@ public class SportsFragment extends BaseFragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Article article = mSportsAdapter.getArticle(position);
+                        Article article = mAdapter.getArticle(position);
                         Intent myIntent = new Intent(getActivity(), DetailActivity.class);
                         myIntent.putExtra("URL", article.getUrl());
                         myIntent.putExtra("SOURCE_NAME", article.getSource().getName());

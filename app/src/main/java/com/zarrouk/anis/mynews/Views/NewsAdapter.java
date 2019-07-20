@@ -15,10 +15,14 @@ import java.util.List;
 /**
  * Created by Anis Zarrouk on 15/07/2019
  */
-public class BaseAdapter extends RecyclerView.Adapter<NewsViewHolder> {
-    protected List<Article> mArticles;
-    protected RequestManager glide;
+public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
+    public List<Article> mArticles;
+    public RequestManager glide;
 
+    public NewsAdapter(List<Article> articles, RequestManager glide) {
+        mArticles = articles;
+        this.glide = glide;
+    }
 
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int i) {
