@@ -28,5 +28,12 @@ public class NewsStreams {
                            .observeOn(AndroidSchedulers.mainThread())
                            .timeout(10, TimeUnit.SECONDS);
     }
+    public static Observable<ResponseModel> streamFetchSectionNewsBySearch(String country,String category ,String query){
+        NewsService newsService = NewsService.retrofit.create(NewsService.class);
+        return  newsService.getSectionNewsBySearch(country, category,query ,API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
 
 }

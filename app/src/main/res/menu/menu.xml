@@ -7,11 +7,18 @@
         android:icon="@drawable/ic_search_white_24dp"
         app:showAsAction="ifRoom"
         />
+
     <item
-        android:id="@+id/menu_item_params"
-        android:title="Paramètres"
-        android:icon="@drawable/ic_more_vert_white_24dp"
-        app:showAsAction="ifRoom"
+        android:id="@+id/menu_item_notifications"
+        android:title="Notifications"
+        app:showAsAction="never"
         />
+    <item
+        android:id="@+id/menu_item_help"
+        android:title="Help"
+        app:showAsAction="never"
+        />
+
+
 
 </menu>

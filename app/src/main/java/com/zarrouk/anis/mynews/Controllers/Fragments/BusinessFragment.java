@@ -1,12 +1,20 @@
 package com.zarrouk.anis.mynews.Controllers.Fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.zarrouk.anis.mynews.Controllers.Activities.DetailActivity;
 import com.zarrouk.anis.mynews.Models.ResponseModel;
+import com.zarrouk.anis.mynews.Utils.ItemClickSupport;
 import com.zarrouk.anis.mynews.Utils.NewsStreams;
 import com.zarrouk.anis.mynews.Views.BusinessAdapter;
 import com.zarrouk.anis.mynews.Models.Article;
@@ -25,6 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 public class BusinessFragment extends BaseFragment {
     @BindView(R.id.progress) ProgressBar mProgressBar;
     @BindView(R.id.list)  RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     private List<Article> articles;
     private BusinessAdapter mBusinessAdapter;
     private Disposable mDisposable;
@@ -37,8 +46,16 @@ public class BusinessFragment extends BaseFragment {
 
     @Override
     protected void configureDesign() {
+        this.configureSwipAndRefreshLayout();
         this.configureRecyclerView();
         this.executeHttpRequest();
+        this.configureOnClickRecyclerView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroyed();
     }
 
     private void executeHttpRequest() {
@@ -68,15 +85,43 @@ public class BusinessFragment extends BaseFragment {
 
     private void configureRecyclerView(){
         this.articles = new ArrayList<>();
-        this.mBusinessAdapter = new BusinessAdapter(this.articles);
+        this.mBusinessAdapter = new BusinessAdapter(this.articles, Glide.with(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(this.mBusinessAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.recylcerview_divider));
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
     }
     private void updateUI(List<Article> articles){
+        this.mSwipeRefreshLayout.setRefreshing(false);
+        this.articles.clear();
         this.articles.addAll(articles);
         this.mBusinessAdapter.notifyDataSetChanged();
         this.updateUIAfterHttpConnection();
     }
-
-
+    private void configureSwipAndRefreshLayout(){
+        this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                executeHttpRequest();
+                updateUIAfterHttpConnection();
+            }
+        });
+    }
+    private void disposeWhenDestroyed(){
+        if (this.mDisposable!=null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+    }
+  private void configureOnClickRecyclerView(){
+      ItemClickSupport.addTo(mRecyclerView, R.layout.list_item)
+                      .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                          @Override
+                          public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                              Article article = mBusinessAdapter.getArticle(position);
+                              Intent myIntent = new Intent(getActivity(), DetailActivity.class);
+                              myIntent.putExtra("URL", article.getUrl());
+                              myIntent.putExtra("SOURCE_NAME", article.getSource().getName());
+                              startActivity(myIntent);
+                          }
+                      });
+  }
 }

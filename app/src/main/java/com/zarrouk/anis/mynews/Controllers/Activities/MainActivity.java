@@ -1,5 +1,6 @@
 package com.zarrouk.anis.mynews.Controllers.Activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -13,12 +14,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.zarrouk.anis.mynews.Views.PageAdapter;
-
 import com.zarrouk.anis.mynews.R;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureAndShowTabsAndViewPager();
         this.configureDrawerLayout();
         this.configureNavigationView();
-        this.getDefaultTab();
         this.getDefaultCheckedMenu();
     }
 
@@ -56,11 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_item_search:
-                Toast.makeText(this, "il n'y a rien à rechercher....", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, SearchActivity.class));
                 return true;
-            case R.id.menu_item_params:
-                Toast.makeText(this, "pas de paramètres...", Toast.LENGTH_LONG).show();
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -79,24 +73,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
               if(tab.getPosition() == 0){
+                  navigationView.getMenu().getItem(0).setChecked(true);
                   tabs.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.firstTabColor));
-                  toolbar =(Toolbar)findViewById(R.id.toolbar);
                   toolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.firstTabColor));
                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                       getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                                                            R.color.firstTabColor));
                   }
               }else if(tab.getPosition() == 1){
+                  navigationView.getMenu().getItem(1).setChecked(true);
                   tabs.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.secondTabColor));
-                  toolbar =(Toolbar)findViewById(R.id.toolbar);
                   toolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.secondTabColor));
                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                       getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                                                            R.color.secondTabColor));
                   }
               }else{
+                  navigationView.getMenu().getItem(2).setChecked(true);
                   tabs.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.thirdTabColor));
-                  toolbar =(Toolbar)findViewById(R.id.toolbar);
                   toolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.thirdTabColor));
                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                       getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
@@ -131,16 +125,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
         switch (menuItem.getItemId()){
-            case R.id.activity_main_drawer_most_popular:
-                pager.setCurrentItem(1);
-                break;
-            case R.id.activity_main_drawer_topStories:
+            case R.id.activity_main_drawer_general:
                 pager.setCurrentItem(0);
+                break;
+            case R.id.activity_main_drawer_sports:
+                pager.setCurrentItem(1);
 
                 break;
-            case R.id.activity_main_drawer_world:
+            case R.id.activity_main_drawer_business:
                 pager.setCurrentItem(2);
                 break;
+            case R.id.activity_main_drawer_searchArticles:
+                startActivity(new Intent(this, SearchActivity.class));
             default:
                 break;
         }
@@ -153,12 +149,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toogle);
         toogle.syncState();
     }
+
     private  void configureNavigationView(){
         navigationView.setNavigationItemSelectedListener(this);
     }
-    private void getDefaultTab(){
-        pager.setCurrentItem(0);
-    }
+
     private void getDefaultCheckedMenu(){
         this.navigationView.getMenu().getItem(0).setChecked(true);
     }

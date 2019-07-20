@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
 import com.squareup.picasso.Picasso;
 import com.zarrouk.anis.mynews.Models.Article;
 import com.zarrouk.anis.mynews.R;
@@ -17,30 +18,13 @@ import java.util.List;
 /**
  * Created by Anis Zarrouk on 25/06/2019
  */
-public class BusinessAdapter extends RecyclerView.Adapter<NewsViewHolder> {
-    List<Article> mArticles;
+public class BusinessAdapter extends BaseAdapter{
 
-    public BusinessAdapter(List<Article> articles) {
+    public BusinessAdapter(List<Article> articles, RequestManager glide) {
 
         mArticles = articles;
+        this.glide = glide;
     }
 
 
-    @NonNull
-    @Override
-    public NewsViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        return  new NewsViewHolder(view);
-
-    }
-
-    @Override
-    public void onBindViewHolder(NewsViewHolder newsViewHolder, int position) {
-           newsViewHolder.display(mArticles.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mArticles.size();
-    }
 }

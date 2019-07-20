@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Controllers.Fragments.SportsFragment">
+    tools:context=".Controllers.Fragments.Results_SearchFragment">
     <ProgressBar
         android:id="@+id/progress"
         android:progressDrawable="@drawable/circle"
@@ -12,10 +12,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         />
-<include
-    layout="@layout/list"
-    android:layout_height="match_parent"
+<include layout="@layout/list"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     />
-
 </LinearLayout>

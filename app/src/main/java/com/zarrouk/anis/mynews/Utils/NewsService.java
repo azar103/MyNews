@@ -29,6 +29,13 @@ import retrofit2.http.Query;
                                            @Query("category") String category,
                                              @Query("apiKey") String API_KEY
                                                 );
+    @GET("v2/top-headlines")
+    Observable<ResponseModel> getSectionNewsBySearch(
+            @Query("country") String country,
+            @Query("category") String category,
+            @Query("q") String query,
+            @Query("apiKey") String API_KEY
+    );
 
 
     Retrofit retrofit = new Retrofit.Builder()

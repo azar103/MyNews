@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.zarrouk.anis.mynews.R;
 
@@ -19,8 +20,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment  extends Fragment   {
 
 
-    protected @BindView(R.id.list)
-    RecyclerView rv;
+
 
     protected  abstract int getFragmentLayout();
     protected  abstract void configureDesign();
@@ -32,6 +32,7 @@ public abstract class BaseFragment  extends Fragment   {
         View view = inflater.inflate(getFragmentLayout(), container, false );
         // Binding Views
         ButterKnife.bind(this, view);
+
         this.configureDesign();
         return(view);
     }
