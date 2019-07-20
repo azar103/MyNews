@@ -3,6 +3,7 @@ package com.zarrouk.anis.mynews.Controllers.Fragments;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -35,6 +36,7 @@ public class Results_SearchFragment extends BaseFragment {
    List<Article> mArticles;
    @BindView(R.id.list) RecyclerView mRecyclerView;
    @BindView(R.id.progress) ProgressBar mProgressBar;
+   @BindView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -45,6 +47,7 @@ public class Results_SearchFragment extends BaseFragment {
         this.configureRecyclerView();
         this.executeHttpRequest();
         this.configureRecyclerViewItemClicked();
+        this.configureSwipeRefreshLayout();
     }
 
 
@@ -77,8 +80,17 @@ public class Results_SearchFragment extends BaseFragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
-
+    private void configureSwipeRefreshLayout(){
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                executeHttpRequest();
+            }
+        });
+    }
     private void updateUI(List<Article> articles){
+        mSwipeRefreshLayout.setRefreshing(false);
+        mArticles.clear();
         mArticles.addAll(articles);
         mAdapter.notifyDataSetChanged();
         if(articles.size() == 0)
